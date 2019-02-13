@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DynamicHome</string>
+    <!-- 底部菜单 -->
+    <string name="bottom_celebration">活动</string>
+    <string name="bottom_release">发布</string>
+    <string name="bottom_home">首页</string>
+    <string name="bottom_message">消息</string>
+    <string name="bottom_mine">我的</string>
+    <string name="bottom_goMain">立即体验</string>
+    <string name="bottom_goLogin">登录/注册</string>
+</resources>
