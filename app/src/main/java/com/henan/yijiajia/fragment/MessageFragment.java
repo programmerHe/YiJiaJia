@@ -15,4 +15,3 @@ public class MessageFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_message, container, false);
     }
 }
-    git add -A
