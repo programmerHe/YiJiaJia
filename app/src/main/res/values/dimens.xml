@@ -4,4 +4,5 @@
     <dimen name="button_width">133dp</dimen>
     <dimen name="button_height">40dp</dimen>
     <dimen name="guide_indicator_height">40dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

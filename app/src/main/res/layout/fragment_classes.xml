@@ -4,5 +4,5 @@
     android:layout_height="match_parent">
     <TextView
         style="@style/TitleStyle"
-        android:text="我的" />
+        android:text="分类" />
 </LinearLayout>

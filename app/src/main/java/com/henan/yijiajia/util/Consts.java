@@ -3,10 +3,7 @@ package com.henan.yijiajia.util;
 import com.henan.yijiajia.BuildConfig;
 
 public class Consts {
-    /**
-     * 启动视频地址
-     */
-    public static final String LUNCHERVIDEO_PATH= BuildConfig.LuncherVideo_path;
+
     /**
      * 是否第一次打开应用
      */

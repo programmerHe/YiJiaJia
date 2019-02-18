@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:clipChildren="false"
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/main_container_content"
@@ -16,42 +14,41 @@
     <RadioGroup
         android:id="@+id/rg_homeMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:orientation="horizontal"
-        android:paddingTop="6dp"
-        android:paddingBottom="1dp"
-        android:background="@color/baseWhite"
-        android:layout_marginTop="1dp">
-
-        <RadioButton
-            android:id="@+id/rb_celebration"
-            style="@style/tab_style"
-            android:drawableTop="@drawable/tab_expo"
-            android:text="@string/bottom_celebration" />
-
-        <RadioButton
-            android:id="@+id/rb_release"
-            style="@style/tab_style"
-            android:drawableTop="@drawable/tab_notice"
-            android:text="@string/bottom_release" />
+        android:paddingTop="2dp"
+        android:background="@color/baseWhite">
 
         <RadioButton
             android:id="@+id/rb_home"
             style="@style/tab_style"
-            android:textSize="0sp"
-            android:drawableTop="@drawable/tab_home" />
+            android:drawableTop="@drawable/tab_home"
+            android:text="首页"/>
+
+        <RadioButton
+            android:id="@+id/rb_class"
+            style="@style/tab_style"
+            android:drawableTop="@drawable/tab_class"
+            android:text="分类"/>
+
+        <RadioButton
+            android:id="@+id/rb_release"
+            style="@style/tab_style"
+            android:drawableTop="@drawable/tab_release"
+            android:text="发布"/>
 
         <RadioButton
             android:id="@+id/rb_message"
             style="@style/tab_style"
-            android:drawableTop="@drawable/tab_business"
-            android:text="@string/bottom_message" />
+            android:drawableTop="@drawable/tab_message"
+            android:text="消息"/>
 
         <RadioButton
             android:id="@+id/rb_mine"
             style="@style/tab_style"
             android:drawableTop="@drawable/tab_mine"
-            android:text="@string/bottom_mine" />
+            android:text="我的"/>
+
     </RadioGroup>
 
 </LinearLayout>

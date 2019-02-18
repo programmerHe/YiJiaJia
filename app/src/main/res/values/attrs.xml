@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleIndicatorView">
+        <!--宽度-->
+        <attr name="indicatorRadius" format="dimension"/>
+        <!--间距-->
+        <attr name="indicatorDistance" format="dimension"/>
+        <!--未选择颜色-->
+        <attr name="indicatorColor" format="color"/>
+        <!--选择时颜色-->
+        <attr name="indicatorSelectColor" format="color"/>
+    </declare-styleable>
+
+</resources>
