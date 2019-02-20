@@ -1,19 +1,21 @@
 package com.henan.yijiajia.p_hall.view;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
-import android.support.v7.widget.RecyclerView;
-import android.widget.ListView;
-
+import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.henan.yijiajia.R;
 import com.henan.yijiajia.p_base.BaseFragment;
 import com.henan.yijiajia.p_base.view.CircleIndicatorView;
 import com.henan.yijiajia.p_hall.adapter.BannerAdapter;
-import com.henan.yijiajia.p_hall.adapter.ClassifyAdapter;
-import com.henan.yijiajia.p_hall.bean.FristClassesBean;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,10 +24,10 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment {
     private List<Integer>  mAdImageList= new LinkedList<Integer>();
-    private RecyclerView mAdRecyclerView;
-    private LinearLayoutManager mAdLayoutManager;
+    private ViewPager mAdviewPage;
     private CircleIndicatorView mAdIndicator;
-    private ListView mListViewClasses;
+    private ImageButton mHomeMenuButton;
+    private PopupWindow mPopWindow;
 
     @Override
     protected int setLayoutResourceID() {
@@ -34,68 +36,80 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        mAdRecyclerView = (RecyclerView) findViewById(R.id.recycler_ad);
+        mAdviewPage = (ViewPager) findViewById(R.id.viewPage_ad);
         mAdIndicator = (CircleIndicatorView)findViewById(R.id.civ_ad);
-        mListViewClasses = (ListView)findViewById(R.id.lv_classes);
+        mHomeMenuButton = (ImageButton)findViewById(R.id.ib_home_menu);
     }
 
     @Override
     protected void initData(Bundle arguments) {
         initAdImageData();
-
-        initClassifyList();
-
     }
 
-    private void initClassifyList() {
-        List<FristClassesBean> FCBList=new ArrayList<>();
-        for(int i=0;i<5;i++){
-            FristClassesBean fristClassesBean=new FristClassesBean();
-            FCBList.add(fristClassesBean);
-        }
-        ClassifyAdapter classifyAdapter=new ClassifyAdapter(FCBList,getContext());
-        mListViewClasses.setAdapter(classifyAdapter);
-    }
-
-
-    private void initAdImageData() {
-        mAdImageList.add(R.mipmap.ad_image1);
-        mAdImageList.add(R.mipmap.ad_image2);
-        mAdImageList.add(R.mipmap.ad_image3);
-        mAdImageList.add(R.mipmap.ad_image4);
-        mAdImageList.add(R.mipmap.ad_image5);
-
-        BannerAdapter adapter = new BannerAdapter(getContext(),mAdImageList);
-        mAdIndicator.setCount(mAdImageList.size());
-        mAdLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mAdRecyclerView.setLayoutManager(mAdLayoutManager);
-        mAdRecyclerView.setHasFixedSize(true);
-        mAdRecyclerView.setAdapter(adapter);
-
-        PagerSnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(mAdRecyclerView);
-
-        mAdRecyclerView.scrollToPosition(mAdImageList.size()*10);
-
-        //循环开始
-//        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-//        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-//            @Override
-//            public void run() {
-//                mAdRecyclerView.smoothScrollToPosition(mAdLayoutManager.findFirstVisibleItemPosition() + 1);
-//            }
-//        }, 2000, 2000, TimeUnit.MILLISECONDS);
-
-        //获取红点位置
-        mAdRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+    @Override
+    protected void addListener() {
+        mHomeMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    int i = mAdLayoutManager.findFirstVisibleItemPosition() % mAdImageList.size();
-                    mAdIndicator.setSelectPosition(i);
-                }
+            public void onClick(View v) {
+                showMenu();
             }
         });
+    }
+
+    boolean flag=false;
+    private void showMenu() {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.frist_menu_popupwindows, null);
+
+        mPopWindow = new PopupWindow(contentView,480, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+        mPopWindow.setContentView(contentView);
+
+
+        //设置各个控件的点击响应
+
+        //显示PopupWindow
+
+        View rootview = LayoutInflater.from(getContext()).inflate(R.layout.fragment_home, null);
+        mPopWindow.showAsDropDown(mHomeMenuButton);
+//        mPopWindow.showAsDropDown(View anchor, int xoff, int yoff)：
+    }
+
+    private void initAdImageData() {
+        mAdImageList.add(R.drawable.ad_image1);
+        mAdImageList.add(R.drawable.ad_image2);
+        mAdImageList.add(R.drawable.ad_image3);
+        mAdImageList.add(R.drawable.ad_image4);
+        mAdImageList.add(R.drawable.ad_image5);
+
+        List<ImageView> mImageList = new ArrayList<>();
+        ImageView iv;
+        for (int i = 0; i < mAdImageList.size(); i++) {
+            iv = new ImageView(getContext());
+            iv.setBackgroundResource(mAdImageList.get(i));
+            mImageList.add(iv);
+        }
+        mAdIndicator.setCount(mAdImageList.size());
+        mAdviewPage.setAdapter(new BannerAdapter(mImageList,mAdviewPage));
+        mAdviewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {}
+            @Override
+            public void onPageSelected(int i) {
+                //伪无限循环，滑到最后一张图片又从新进入第一张图片
+                int newPosition = i % mAdImageList.size();
+
+                // 把当前选中的点给切换了, 还有描述信息也切换
+                mAdIndicator.setSelectPosition(newPosition);
+                // 把当前的索引赋值给前一个索引变量, 方便下一次再切换.
+               //previousPosition = newPosition;
+            }
+            @Override
+            public void onPageScrollStateChanged(int i) {}
+        });
+        mAdIndicator.setSelectPosition(1);
+        // 把ViewPager设置为默认选中Integer.MAX_VALUE / 2，从十几亿次开始轮播图片，达到无限循环目的;
+        int m = (Integer.MAX_VALUE / 2) % mImageList.size();
+        int currentPosition = Integer.MAX_VALUE / 2 - m;
+        mAdviewPage.setCurrentItem(currentPosition);
     }
 
 }

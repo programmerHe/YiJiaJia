@@ -30,6 +30,7 @@
             android:background="@drawable/rect_rounded_left_right_arc" />
 
         <ImageButton
+            android:id="@+id/ib_home_menu"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
@@ -38,43 +39,487 @@
             android:background="@mipmap/close" />
     </RelativeLayout>
 
-    <!--广告框-->
-    <RelativeLayout
+    <ScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_ad"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.henan.yijiajia.p_base.view.CircleIndicatorView
-            android:id="@+id/civ_ad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
-            android:layout_centerHorizontal="true"
-            app:indicatorColor="#fff"
-            app:indicatorSelectColor="#f00"
-            app:indicatorDistance="8dp"
-            app:indicatorRadius="6dp" />
+            <!--广告框-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp">
 
-    </RelativeLayout>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPage_ad"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp" />
 
-    <!--热门产品-->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@mipmap/frist_temp" />
+                <com.henan.yijiajia.p_base.view.CircleIndicatorView
+                    android:id="@+id/civ_ad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    app:indicatorColor="#fff"
+                    app:indicatorDistance="8dp"
+                    app:indicatorRadius="6dp"
+                    app:indicatorSelectColor="#f00" />
 
-    <ListView
-        android:id="@+id/lv_classes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:divider="#00000000"
-        android:dividerHeight="10dp">
-    </ListView>
+            </RelativeLayout>
+
+            <!--热门产品-->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@drawable/frist_temp" />
+
+            <!--房屋维修-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/big_classify_1" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="开换锁"
+                        android:textSize="12sp"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="水路维修"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="管道疏通"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_top" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="门窗家具"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_bottom" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--家电维修-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/big_classify_2" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="大家电"
+                        android:textSize="12sp"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="生活家电"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="厨卫家电"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_top" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="家电清洗"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_bottom" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--数码维修-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/big_classify_3" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="修手机"
+                        android:textSize="12sp"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="修电脑"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="办公耗材"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_top" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="数码影音"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_bottom" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--上门安装-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/big_classify_4" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="家电安装"
+                        android:textSize="12sp"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="家具安装"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="厨卫安装"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_top" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="灯具安装"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_bottom" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--家庭清洁-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/big_classify_5" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="家电清洗"
+                        android:textSize="12sp"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="衣物护理"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="擦玻璃"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_top" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="空气治理"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_bottom" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--健康之选-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/big_classify_6" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="按摩"
+                        android:textSize="12sp"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="母婴护理"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="医护上门"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_top" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="小儿推拿"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_bottom" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--优享生活-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/big_classify_7" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="丽人"
+                        android:textSize="12sp"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="运动健身"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="鲜花"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_top" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="家有爱宠"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_bottom" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--便民服务-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/big_classify_8" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="上门洗车"
+                        android:textSize="12sp"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/classify_button_middle"
+                        android:text="代办跑腿"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="生活配送"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_top" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="上门回收"
+                        android:textSize="12sp"
+                        android:background="@drawable/classify_button_right_bottom" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

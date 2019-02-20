@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="3dp">
+
+    <com.henan.yijiajia.p_base.view.PopupAngleView
+        android:id="@+id/popupAngleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/relativeLayout"
+        android:layout_marginRight="10dp"
+        app:angleColor="#FFFFFF"
+        app:angleDirection="top"
+        app:angleResolutionHeight="10dp"
+        app:angleResolutionWidth="10dp" />
+
+    <LinearLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_below="@id/popupAngleView"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="我的订单"
+            android:background="@drawable/popup_button_middle" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="我的收藏"
+            android:background="@drawable/popup_button_middle" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="帮助中心"
+            android:background="@drawable/popup_button_middle" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="发布服务"
+            android:background="@drawable/popup_button_middle" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="扫一扫"
+            android:background="@drawable/popup_button_middle" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,14 +1,10 @@
 package com.henan.yijiajia.p_hall.adapter;
 
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.henan.yijiajia.R;
 
 import java.util.List;
 
@@ -16,40 +12,50 @@ import java.util.List;
  * Created by 叶满林 on 2019/2/17.
  */
 
-public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder> {
+public class BannerAdapter extends PagerAdapter{
 
-    private List<Integer> list;
-    private Context context;
+    private List<ImageView> mImageList;
+    private ViewPager mViewPager;
 
-    public BannerAdapter(Context context, List<Integer> list) {
-        this.list = list;
-        this.context = context;
+    public BannerAdapter(List<ImageView> imageIdList, ViewPager viewPager) {
+        this.mImageList=imageIdList;
+        this.mViewPager = viewPager;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ad_image, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Glide.with(context).load(list.get(position % list.size())).into(holder.imageView);
-    }
-
-    //广告轮播图是无限轮播所以这里是无限多
-    @Override
-    public int getItemCount() {
+    public int getCount() {
         return Integer.MAX_VALUE;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
+    /**
+     * 判断是否使用缓存, 如果返回的是true, 使用缓存. 不去调用instantiateItem方法创建一个新的对象
+     */
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.item_image);
-        }
+    /**
+     * 初始化一个条目
+     * position 就是当前需要加载条目的索引
+     */
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        // 把position对应位置的ImageView添加到ViewPager中
+        ImageView iv = mImageList.get(position % mImageList.size());
+        mViewPager.addView(iv);
+        // 把当前添加ImageView返回回去.
+        return iv;
+    }
+
+    /**
+     * 销毁一个条目
+     * position 就是当前需要被销毁的条目的索引
+     */
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        // 把ImageView从ViewPager中移除掉
+        mViewPager.removeView(mImageList.get(position % mImageList.size()));
     }
 
 }

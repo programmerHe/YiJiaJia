@@ -3,13 +3,28 @@
 
     <declare-styleable name="CircleIndicatorView">
         <!--宽度-->
-        <attr name="indicatorRadius" format="dimension"/>
+        <attr name="indicatorRadius" format="dimension" />
         <!--间距-->
-        <attr name="indicatorDistance" format="dimension"/>
+        <attr name="indicatorDistance" format="dimension" />
         <!--未选择颜色-->
-        <attr name="indicatorColor" format="color"/>
+        <attr name="indicatorColor" format="color" />
         <!--选择时颜色-->
-        <attr name="indicatorSelectColor" format="color"/>
+        <attr name="indicatorSelectColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="PopupAngleView">
+        <!--颜色-->
+        <attr name="angleColor" format="color" />
+        <!--宽度-->
+        <attr name="angleResolutionWidth" format="dimension" />
+        <!--高度-->
+        <attr name="angleResolutionHeight" format="dimension" />
+        <!--朝向-->
+        <attr name="angleDirection">
+            <enum name="top" value="0" />
+            <enum name="bottom" value="1" />
+            <enum name="right" value="2" />
+            <enum name="left" value="3" />
+        </attr>
+    </declare-styleable>
 </resources>
