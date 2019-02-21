@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="定位城市"
+        android:textColor="#222222"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/item_header_city_dw"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/location_button"
+        android:gravity="center"
+        android:text="铜川"
+        android:textColor="#000" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="15dp"
+        android:background="#EFEFEF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="30dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="热门城市"
+            android:textColor="#222222"
+            android:textSize="18sp" />
+
+        <com.henan.yijiajia.p_location.view.QGridView
+            android:id="@+id/item_header_city_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:columnWidth="60dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:horizontalSpacing="15dp"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp">
+        </com.henan.yijiajia.p_location.view.QGridView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="#EFEFEF" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical"
+        android:text="所有城市"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+</LinearLayout>

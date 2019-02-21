@@ -22,6 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
         //设置数据
         initData();
+        addListener();
     }
 
     /**
@@ -42,6 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initData();
 
 
+    protected  void addListener(){};
     /**
      * 显示长toast
      * @param msg
