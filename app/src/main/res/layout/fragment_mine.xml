@@ -1,8 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        style="@style/TitleStyle"
-        android:text="我的" />
+    android:layout_height="match_parent"
+    android:background="@drawable/mine_backgroud"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/setup" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
+
+        <ImageView
+            android:id="@+id/iv_weixin"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/weixin_icon" />
+
+        <ImageView
+            android:id="@+id/iv_phone"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/phone_icon" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/iv_weixin"
+            android:layout_below="@+id/iv_weixin"
+            android:layout_marginTop="5dp"
+            android:text="微信登录"
+            android:textColor="#FFDDA8" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/iv_phone"
+            android:layout_below="@+id/iv_phone"
+            android:layout_marginTop="5dp"
+            android:text="手机登录"
+            android:textColor="#FFDDA8" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/arc_backgroud"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:text="我的订单"
+                android:textColor="#222222"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#EFEFEF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Button
+                android:layout_marginTop="10dp"
+                android:background="#00000000"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:drawableTop="@drawable/icon_confirm"
+                android:text="待确认"
+                android:layout_height="match_parent" />
+            <Button
+                android:layout_marginTop="10dp"
+                android:background="#00000000"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:drawableTop="@drawable/icon_service"
+                android:text="待服务"
+                android:layout_height="match_parent" />
+            <Button
+                android:layout_marginTop="10dp"
+                android:background="#00000000"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:drawableTop="@drawable/icon_pay"
+                android:text="待支付"
+                android:layout_height="match_parent" />
+            <Button
+                android:layout_marginTop="10dp"
+                android:background="#00000000"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:drawableTop="@drawable/icon_evaluate"
+                android:text="待评价"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_button_top"
+            android:drawableRight="@drawable/arrow"
+            android:gravity="center_vertical"
+            android:text="我的地址"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="#EFEFEF" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_button_middle"
+            android:drawableRight="@drawable/arrow"
+            android:gravity="center_vertical"
+            android:text="入驻发布"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="#EFEFEF" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_button_bottom"
+            android:drawableRight="@drawable/arrow"
+            android:gravity="center_vertical"
+            android:text="帮助中心"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 </LinearLayout>
