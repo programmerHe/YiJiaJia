@@ -21,14 +21,36 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="110dp">
+        <ImageView
+            android:id="@+id/user_head_iv"
+            android:layout_centerHorizontal="true"
+            android:background="#E5E5E5"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/user_head_iv"
+            android:textSize="16sp"
+            android:textColor="#FFF"
+            android:text="一花一世界" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
 
         <ImageView
             android:id="@+id/iv_weixin"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="80dp"
-            android:layout_marginTop="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="42dp"
             android:background="@drawable/weixin_icon" />
 
         <ImageView

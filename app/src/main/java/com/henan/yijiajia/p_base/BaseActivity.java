@@ -17,7 +17,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //设置布局
-        setContentView(intiLayout());
+        setContentView(initLayout());
         //初始化控件
         initView();
         //设置数据
@@ -30,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @return
      */
-    protected abstract int intiLayout();
+    protected abstract int initLayout();
 
     /**
      * 初始化布局

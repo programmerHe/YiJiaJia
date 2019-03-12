@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity{
     }
 
     @Override
-    public int intiLayout() {
+    public int initLayout() {
         return R.layout.activity_main;
     }
 

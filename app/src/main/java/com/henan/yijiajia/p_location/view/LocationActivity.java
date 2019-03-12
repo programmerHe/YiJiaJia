@@ -44,7 +44,7 @@ public class LocationActivity extends BaseActivity {
     private IndexableLayout mIndexableLayout;
 
     @Override
-    protected int intiLayout() {
+    protected int initLayout() {
         return R.layout.activity_location;
     }
 
