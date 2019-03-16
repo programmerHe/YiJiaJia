@@ -1,8 +1,9 @@
 package com.henan.yijiajia.util;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.henan.yijiajia.main.YijiajiaApplication;
 
 /**
  * 存储常用的数值(可以做单例，不过我觉得没有必要)
@@ -14,17 +15,17 @@ public class SharedPreferencesUtil {
     private static SharedPreferences.Editor mEditor;
     private static SharedPreferencesUtil mSharedPreferencesUtil;
 
-    public SharedPreferencesUtil(Context context) {
-        mPreferences = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+    private SharedPreferencesUtil() {
+        mPreferences = YijiajiaApplication.getContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         mEditor = mPreferences.edit();
     }
 
     /**
      *获取单例
      */
-    public static SharedPreferencesUtil getInstance(Context context) {
+    public static SharedPreferencesUtil getInstance() {
         if (mSharedPreferencesUtil == null) {
-            mSharedPreferencesUtil = new SharedPreferencesUtil(context);
+            mSharedPreferencesUtil = new SharedPreferencesUtil();
         }
         return mSharedPreferencesUtil;
     }
@@ -70,4 +71,11 @@ public class SharedPreferencesUtil {
         return mPreferences.getInt(key,defValue);
     }
 
+    /**
+     * 删除某数据
+     */
+    public void delete(String key){
+        mEditor.remove(key);
+        mEditor.commit();
+    }
 }

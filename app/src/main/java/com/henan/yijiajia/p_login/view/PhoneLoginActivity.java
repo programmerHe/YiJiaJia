@@ -1,5 +1,6 @@
 package com.henan.yijiajia.p_login.view;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -56,7 +57,9 @@ public class PhoneLoginActivity extends BaseActivity implements PhoneLoginContra
 
     @Override
     public void loginSuccess() {
-
+        Intent intent=getIntent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override

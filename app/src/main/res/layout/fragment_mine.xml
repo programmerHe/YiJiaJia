@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/mine_backgroud"
     android:orientation="vertical">
 
@@ -10,6 +11,7 @@
         android:layout_height="40dp">
 
         <ImageButton
+            android:id="@+id/ib_setting"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
@@ -19,28 +21,40 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/islogin_rl"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="110dp">
-        <ImageView
-            android:id="@+id/user_head_iv"
-            android:layout_centerHorizontal="true"
-            android:background="#E5E5E5"
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_user_head"
             android:layout_width="70dp"
-            android:layout_height="70dp" />
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            fresco:actualImageScaleType="focusCrop"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:progressBarImageScaleType="centerInside"
+            fresco:progressBarAutoRotateInterval="5000"
+            fresco:failureImageScaleType="centerInside"
+            fresco:retryImageScaleType="centerCrop"
+            fresco:fadeDuration="5000"
+            fresco:backgroundImage="@android:color/holo_orange_light"
+            fresco:roundAsCircle="true" />
+
         <TextView
+            android:id="@+id/tv_user_name"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/user_head_iv"
+            android:layout_below="@id/iv_user_head"
             android:textSize="16sp"
-            android:textColor="#FFF"
-            android:text="一花一世界" />
+            android:textColor="#FFF" />
     </RelativeLayout>
 
 
     <RelativeLayout
-        android:visibility="gone"
+        android:id="@+id/nologin_rl"
         android:layout_width="match_parent"
         android:layout_height="110dp">
 
@@ -48,9 +62,9 @@
             android:id="@+id/iv_weixin"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="42dp"
+            android:layout_alignTop="@+id/iv_phone"
+            android:layout_marginEnd="83dp"
+            android:layout_toStartOf="@+id/iv_phone"
             android:background="@drawable/weixin_icon" />
 
         <ImageView

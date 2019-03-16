@@ -10,6 +10,15 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        manifestPlaceholders = [
+                GETUI_APP_ID : "5ezPVzewKd7ZPize8GH542",
+                GETUI_APP_KEY : "rGJEiUEQvY9vCXC65p6XR9",
+                GETUI_APP_SECRET : "ymKcvE2fBR8DArzPypvFf6"
+        ]
+
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86_64"
+        }
     }
     buildTypes {
         release {
@@ -59,4 +68,10 @@ dependencies {
 
     //eventBus
     compile 'org.greenrobot:eventbus:3.0.0'
+
+    //fresco
+    compile 'com.facebook.fresco:fresco:0.14.1'
+
+    //个推sdk
+    compile 'com.getui:sdk:2.13.1.0'
 }

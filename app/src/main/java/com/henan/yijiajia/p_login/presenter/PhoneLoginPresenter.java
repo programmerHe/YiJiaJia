@@ -1,10 +1,18 @@
 package com.henan.yijiajia.p_login.presenter;
 
 import android.text.TextUtils;
+import android.util.Log;
+
 import com.henan.yijiajia.p_base.util.PhoneNumberUtils;
 import com.henan.yijiajia.p_login.PhoneLoginContract;
 import com.henan.yijiajia.p_login.model.PhoneLoginModel;
 import com.henan.yijiajia.p_network.NetworkMassage;
+import com.henan.yijiajia.util.ConstantValue;
+import com.henan.yijiajia.util.SharedPreferencesUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by 叶满林 on 2019/3/1.
@@ -18,6 +26,7 @@ public class PhoneLoginPresenter implements PhoneLoginContract.IPhoneLoginPresen
     public PhoneLoginPresenter(PhoneLoginContract.IPhoneLoginView phoneLoginView) {
         this.mPhoneLoginView = phoneLoginView;
         mPhoneLoginModel = new PhoneLoginModel();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -26,10 +35,10 @@ public class PhoneLoginPresenter implements PhoneLoginContract.IPhoneLoginPresen
             //非电话号码直接返回
             return ;
         }
-        if (!PhoneLoginModel.mLoginStat) {
+        if (!PhoneLoginModel.mGetPIN) {
             new NetworkMassage().loginPIN(phone);
             mPhoneLoginView.showIdentifying();
-            PhoneLoginModel.mLoginStat = true;
+            PhoneLoginModel.mGetPIN = true;
         }else{
             if (TextUtils.isEmpty(PIN)){
                 return;
@@ -40,6 +49,24 @@ public class PhoneLoginPresenter implements PhoneLoginContract.IPhoneLoginPresen
 
     @Override
     public void release() {
-        PhoneLoginModel.mLoginStat = false;
+        EventBus.getDefault().unregister(this);
+    }
+
+    //eventBus消息处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainEventBus(LoginMessage msg) {
+        String data=msg.message;
+        if (!TextUtils.equals(data,"error")) {
+            SharedPreferencesUtil.getInstance().putString(ConstantValue.USER_MESSAGE, data);
+            PhoneLoginModel.mIslogin = true;
+            mPhoneLoginView.loginSuccess();
+        }
+    }
+
+    public static class LoginMessage{
+        public String message;
+        public LoginMessage(String message){
+            this.message=message;
+        }
     }
 }

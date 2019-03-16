@@ -19,4 +19,5 @@ public class Consts {
      * 请求网络资源时用到
      */
     public static final String RESOURCE_PREFIX = BuildConfig.RESOURCE_PREFIX;
+
 }

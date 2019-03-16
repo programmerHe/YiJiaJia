@@ -5,5 +5,6 @@ package com.henan.yijiajia.p_login.model;
  */
 
 public class PhoneLoginModel {
-    public static boolean mLoginStat = false;
+    public static boolean mGetPIN = false;
+    public static boolean mIslogin = false;
 }

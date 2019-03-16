@@ -6,4 +6,7 @@ package com.henan.yijiajia.main;
 
 public class RequestCodeInfo {
     public static final int GETCITY = 1;
+    public static final int USER_MANAGE = 2;
+    public static final int SETTING = 3;
+
 }

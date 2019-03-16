@@ -1,6 +1,12 @@
 package com.henan.yijiajia.p_network;
 
+import android.text.TextUtils;
 import android.util.Log;
+
+import com.henan.yijiajia.p_base.util.JsonUtils;
+import com.henan.yijiajia.p_login.presenter.PhoneLoginPresenter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -72,12 +78,17 @@ public class NetworkMassage {
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        Log.i(TAG, "Error");
+                        EventBus.getDefault().post(new PhoneLoginPresenter.LoginMessage("error"));
                     }
                     @Override
                     public void onNext(NetBasebean userInfo) {
-                        //请求成功
-                        Log.i(TAG, "Success");
+                        //登录成功
+                        if(TextUtils.equals("success",userInfo.msg)){
+                            String message= JsonUtils.ObjectString(userInfo.data);
+                            EventBus.getDefault().post(new PhoneLoginPresenter.LoginMessage(message));
+                        }else{
+                            EventBus.getDefault().post(new PhoneLoginPresenter.LoginMessage("error"));
+                        }
                     }
                 });
     }
