@@ -1,13 +1,15 @@
 package com.henan.yijiajia.p_hall.view;
 
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioGroup;
 
 import com.henan.yijiajia.R;
 import com.henan.yijiajia.p_base.BaseActivity;
+import com.henan.yijiajia.p_push.server.MessagePushService;
+import com.henan.yijiajia.p_push.server.PushIntentService;
+import com.igexin.sdk.PushManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +27,6 @@ public class MainActivity extends BaseActivity{
     private MessageFragment mMessageFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public int initLayout() {
         return R.layout.activity_main;
     }
@@ -43,8 +39,14 @@ public class MainActivity extends BaseActivity{
 
     @Override
     protected void initData() {
+        initPushManage();//初始化个推
         showHomeFragment();
         setMenuRadioGroup();
+    }
+
+    private void initPushManage() {
+        PushManager.getInstance().initialize(getApplicationContext(), MessagePushService.class);
+        PushManager.getInstance().registerPushIntentService(getApplicationContext(), PushIntentService.class);
     }
 
     private void showHomeFragment() {

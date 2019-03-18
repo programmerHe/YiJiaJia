@@ -1,6 +1,7 @@
 package com.henan.yijiajia.p_hall.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.henan.yijiajia.R;
 import com.henan.yijiajia.p_hall.bean.ClassifyMenuBean;
+import com.henan.yijiajia.p_typeshow.view.TypeShowActivity;
 
 import java.util.List;
 
@@ -59,6 +61,18 @@ public class ClassesSubmenuItemAdapter extends BaseAdapter {
             viewHold = (ViewHold) convertView.getTag();
         }
         viewHold.tv_name.setText(submenuBean.title);
+        final String title=submenuBean.title;
+        viewHold.tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //创建意图对象
+                Intent intent = new Intent(context,TypeShowActivity.class);
+                //设置传递键值对
+                intent.putExtra("typename",title);
+                //激活意图
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
