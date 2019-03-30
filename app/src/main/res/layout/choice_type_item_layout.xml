@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:background="#00000000"
+    android:textColor="@color/colorAccent"
+    android:textSize="17sp"
+    android:text="家政"
+    android:gravity="center"
+    >
+    <!--这里高度height设置小一点，让每个item划上去的时候更容易完全不可见，
+    可以在listview布局设置dividerHeight大一点，让第二个item刚好显示在两根线的中间，
+    这样的话第一个可见的item就更容易得到我们想要的结果
+    -->
+</TextView>

@@ -29,6 +29,7 @@
     <EditText
         android:id="@+id/et_phone_number"
         android:layout_width="match_parent"
+        android:numeric="integer"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -39,6 +40,7 @@
     <EditText
         android:id="@+id/et_identifying"
         android:layout_width="match_parent"
+        android:numeric="integer"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -55,6 +57,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
         android:background="#F08F92"
+        android:enabled="false"
         android:text="下一步"
         android:textColor="#FFF" />
 </LinearLayout>

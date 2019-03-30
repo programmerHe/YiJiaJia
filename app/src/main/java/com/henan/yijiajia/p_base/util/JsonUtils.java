@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -28,6 +29,12 @@ public class JsonUtils {
     }
 
     public static <T> T stringToObject(String gsonString, Class<T> cls) {
+        Gson gson = new Gson();
+        T t = gson.fromJson(gsonString, cls);
+        return t;
+    }
+
+    public static <T> T jsonElementToObject(JsonElement  gsonString, Class<T> cls) {
         Gson gson = new Gson();
         T t = gson.fromJson(gsonString, cls);
         return t;

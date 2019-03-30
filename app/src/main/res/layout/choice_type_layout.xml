@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="325dp"
+        android:layout_height="260dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="#CCC"
+            android:gravity="center"
+            android:text="选择您服务的分类"
+            android:textColor="#333333"
+            android:textSize="17sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
+            <View
+                android:layout_width="265dp"
+                android:layout_height="1dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="59dp"
+                android:background="#999999" />
+            <View
+                android:layout_width="265dp"
+                android:layout_height="1dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="95dp"
+                android:background="#999999" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="111dp"
+                android:layout_marginTop="22dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center">
+
+                <ListView
+                    android:id="@+id/lv_main_type"
+                    android:layout_width="105dp"
+                    android:layout_height="match_parent"
+                    android:background="#00000000"
+                    android:divider="@null"
+                    android:dividerHeight="22dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none" />
+
+                <ListView
+                    android:id="@+id/lv_type"
+                    android:layout_width="105dp"
+                    android:layout_height="match_parent"
+                    android:background="#00000000"
+                    android:divider="@null"
+                    android:dividerHeight="30dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:background="#7fFFFFFF"
+                android:clickable="true" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginTop="96dp"
+                android:background="#7fFFFFFF"
+                android:clickable="true" />
+            <Button
+                android:id="@+id/bt_confirm"
+                android:layout_width="233dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="158dp"
+                android:background="#FF3030"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

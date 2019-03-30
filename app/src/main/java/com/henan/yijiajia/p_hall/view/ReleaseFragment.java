@@ -1,15 +1,39 @@
 package com.henan.yijiajia.p_hall.view;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;;
 
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.henan.yijiajia.R;
+import com.henan.yijiajia.main.RequestCodeInfo;
 import com.henan.yijiajia.main.YijiajiaApplication;
 import com.henan.yijiajia.p_base.BaseFragment;
+import com.henan.yijiajia.p_base.util.CameraUtils;
 import com.henan.yijiajia.p_base.util.JsonUtils;
+import com.henan.yijiajia.p_hall.dialog.TypeChoiceDialog;
+import com.henan.yijiajia.p_location.bean.LocationEntity;
+import com.henan.yijiajia.p_location.model.LocationModel;
+import com.henan.yijiajia.p_login.bean.Users;
+import com.henan.yijiajia.p_login.model.PhoneLoginModel;
+import com.henan.yijiajia.p_network.NetworkMassage;
+import com.henan.yijiajia.p_release.bean.ReleaseServerBean;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.RecognizerResult;
@@ -32,11 +56,21 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
     private EditText mReleaseText;
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String , String>();
+    private ImageView mReleaseImage;
+    private Button mReleaseButton;
+    private RelativeLayout mChoiceTypeLayout;
+    private EditText mMoneyEditText;
+    private TextView mDetailedAddressTextView;
 
     @Override
     protected void initView() {
         mSpeedButton = findViewById(R.id.bt_speed);
         mReleaseText = findViewById(R.id.et_release_text);
+        mReleaseImage = findViewById(R.id.iv_release_image);
+        mReleaseButton = findViewById(R.id.bt_release);
+        mChoiceTypeLayout = findViewById(R.id.rl_type_choice);
+        mMoneyEditText = findViewById(R.id.et_money);
+        mDetailedAddressTextView = findViewById(R.id.tv_detailed_address);
     }
 
     @Override
@@ -53,6 +87,9 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
     @Override
     protected void addListener() {
         mSpeedButton.setOnClickListener(this);
+        mReleaseImage.setOnClickListener(this);
+        mReleaseButton.setOnClickListener(this);
+        mChoiceTypeLayout.setOnClickListener(this);
     }
 
     @Override
@@ -61,7 +98,69 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
             case R.id.bt_speed: //语音识别（把声音转文字）
                 startSpeechDialog();
                 break;
+            case R.id.iv_release_image:
+                showPopueWindow();
+                break;
+            case R.id.bt_release:
+                releaseService();
+                break;
+            case R.id.rl_type_choice:
+                final TypeChoiceDialog typeDialog = new TypeChoiceDialog(getContext(),null);
+                typeDialog.setCancelable(true);
+                typeDialog.show();
+                break;
         }
+    }
+
+    private void releaseService() {
+        ReleaseServerBean releaseServerBean = new ReleaseServerBean();
+        //用户信息
+        Users loginManage = PhoneLoginModel.getLoginManage();
+        if (loginManage==null){
+            Toast.makeText(getContext(),"请先登录",Toast.LENGTH_LONG).show();
+            return;
+        }else {
+            releaseServerBean.userID=loginManage.id+"";
+        }
+        //获取分类
+        releaseServerBean.typeCode=1+"";
+        //获取内容
+        String releaseText=mReleaseText.getText().toString().trim();
+        if (TextUtils.isEmpty(releaseText)){
+            Toast.makeText(getContext(),"请输入信息",Toast.LENGTH_LONG).show();
+            return;
+        }else{
+            releaseServerBean. servicerequest_text=releaseText;
+        }
+        //获取图片
+        //获取预算并判断类型
+        String money=mMoneyEditText.getText().toString().trim();
+        if (TextUtils.isEmpty(money)){
+            releaseServerBean.servicerequest_method="2";
+        }else {
+            releaseServerBean.servicerequest_method="1";
+            releaseServerBean.servicerequest_money=Integer.parseInt(money);
+        }
+        //联系电话暂时用用户
+        releaseServerBean.servicerequest_user_phone=loginManage.phone;
+        //获取服务地址并封装gps
+        LocationEntity saveLocation = LocationModel.getSaveLocation();
+        releaseServerBean.location_longitude=saveLocation.longitude;//经度
+        releaseServerBean.location_latitude=saveLocation.latitude;//纬度
+        releaseServerBean.location_cityCode=saveLocation.cityCode;//城市编码
+        releaseServerBean.location_areaCode=saveLocation.adCode;//区编码
+        releaseServerBean.location_area=saveLocation.city+saveLocation.district;//市区
+        String address=mDetailedAddressTextView.getText().toString().trim();
+        if (TextUtils.isEmpty(address)){
+            Toast.makeText(getContext(),"请填写详细地址",Toast.LENGTH_LONG).show();
+            return;
+        }else {
+            releaseServerBean.location_address=address;
+        }
+
+        String releaseJson=JsonUtils.ObjectString(releaseServerBean);
+        Log.i("davie", "releaseService: "+releaseJson);
+     //new NetworkMassage().releaseService(loginManage.phone,releaseServerBean);
     }
 
     private void startSpeechDialog() {
@@ -108,19 +207,95 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             mIatResults.put(sn, text) ;//没有得到一句，添加到
-
             StringBuffer resultBuffer = new StringBuffer();
             for (String key : mIatResults.keySet()) {
                 resultBuffer.append(mIatResults .get(key));
             }
-
             mReleaseText.setText(resultBuffer.toString());// 设置输入框的文本
             mReleaseText .setSelection(mReleaseText.length()) ;//把光标定位末尾
         }
         @Override
         public void onError(SpeechError speechError) {
+        }
+    }
+
+    //
+    private void showPopueWindow(){
+        View popView = View.inflate(getContext(),R.layout.popupwindow_camera_need,null);
+        Button bt_album = (Button) popView.findViewById(R.id.btn_pop_album);
+        Button bt_camera = (Button) popView.findViewById(R.id.btn_pop_camera);
+        Button bt_cancle = (Button) popView.findViewById(R.id.btn_pop_cancel);
+        //获取屏幕宽高
+        int weight = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels*1/3;
+
+        final PopupWindow popupWindow = new PopupWindow(popView,weight,height);
+        popupWindow.setAnimationStyle(R.style.anim_popup_dir);
+        popupWindow.setFocusable(true);
+        //点击外部popueWindow消失
+        popupWindow.setOutsideTouchable(true);
+
+        bt_album.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RequestCodeInfo.RESULT_LOAD_IMAGE);
+                popupWindow.dismiss();
+            }
+        });
+        bt_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CameraUtils.takeCamera(RequestCodeInfo.RESULT_CAMERA_IMAGE,getContext());
+                popupWindow.dismiss();
+
+            }
+        });
+        bt_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+
+            }
+        });
+        //popupWindow消失屏幕变为不透明
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp =  getActivity().getWindow().getAttributes();
+                lp.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(lp);
+            }
+        });
+        //popupWindow出现屏幕变为半透明
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = 0.5f;
+        getActivity().getWindow().setAttributes(lp);
+        popupWindow.showAtLocation(popView, Gravity.BOTTOM,0,0);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == getActivity().RESULT_OK ) {
+            if (requestCode == RequestCodeInfo.RESULT_LOAD_IMAGE && null != data) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor =  getActivity().getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                final String picturePath = cursor.getString(columnIndex);
+                // upload(picturePath);
+                cursor.close();
+            }else if (requestCode == RequestCodeInfo.RESULT_CAMERA_IMAGE){
+
+            }
         }
     }
 }

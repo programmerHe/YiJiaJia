@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.henan.yijiajia.R;
 import com.henan.yijiajia.p_base.BaseActivity;
+import com.henan.yijiajia.p_login.model.PhoneLoginModel;
 import com.henan.yijiajia.util.ConstantValue;
 import com.henan.yijiajia.util.SharedPreferencesUtil;
 
@@ -39,7 +40,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_login_off:
-                SharedPreferencesUtil.getInstance().delete(ConstantValue.USER_MESSAGE);
+                PhoneLoginModel.outLogin();
                 Intent intent=getIntent();
                 setResult(RESULT_OK, intent);
                 finish();

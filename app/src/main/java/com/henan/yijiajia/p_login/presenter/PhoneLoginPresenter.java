@@ -3,8 +3,10 @@ package com.henan.yijiajia.p_login.presenter;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.henan.yijiajia.p_base.util.JsonUtils;
 import com.henan.yijiajia.p_base.util.PhoneNumberUtils;
 import com.henan.yijiajia.p_login.PhoneLoginContract;
+import com.henan.yijiajia.p_login.bean.Users;
 import com.henan.yijiajia.p_login.model.PhoneLoginModel;
 import com.henan.yijiajia.p_network.NetworkMassage;
 import com.henan.yijiajia.util.ConstantValue;
@@ -31,20 +33,13 @@ public class PhoneLoginPresenter implements PhoneLoginContract.IPhoneLoginPresen
 
     @Override
     public void reqLogin(String phone,String PIN) {
-        if (!PhoneNumberUtils.isPhoneNumber(phone)){
-            //非电话号码直接返回
-            return ;
-        }
-        if (!PhoneLoginModel.mGetPIN) {
-            new NetworkMassage().loginPIN(phone);
-            mPhoneLoginView.showIdentifying();
-            PhoneLoginModel.mGetPIN = true;
-        }else{
-            if (TextUtils.isEmpty(PIN)){
-                return;
-            }
-            new NetworkMassage().loginPhone(phone,PIN);
-        }
+        new NetworkMassage().loginPhone(phone,PIN);
+    }
+
+    @Override
+    public void reqPIN(String phone) {
+        new NetworkMassage().loginPIN(phone);
+        mPhoneLoginView.showIdentifying();
     }
 
     @Override
@@ -57,8 +52,7 @@ public class PhoneLoginPresenter implements PhoneLoginContract.IPhoneLoginPresen
     public void onMainEventBus(LoginMessage msg) {
         String data=msg.message;
         if (!TextUtils.equals(data,"error")) {
-            SharedPreferencesUtil.getInstance().putString(ConstantValue.USER_MESSAGE, data);
-            PhoneLoginModel.mIslogin = true;
+            PhoneLoginModel.saveLoginManage(JsonUtils.stringToObject(data, Users.class));
             mPhoneLoginView.loginSuccess();
         }
     }

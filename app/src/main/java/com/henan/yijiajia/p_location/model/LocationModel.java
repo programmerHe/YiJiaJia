@@ -3,85 +3,121 @@ package com.henan.yijiajia.p_location.model;
 import android.text.TextUtils;
 
 import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.henan.yijiajia.main.YijiajiaApplication;
+import com.henan.yijiajia.p_base.util.JsonUtils;
+import com.henan.yijiajia.p_location.bean.LocationEntity;
+import com.henan.yijiajia.p_login.model.PhoneLoginModel;
+import com.henan.yijiajia.util.ConstantValue;
+import com.henan.yijiajia.util.SharedPreferencesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 叶满林 on 2019/3/17.
  */
 
 public class LocationModel {
-    /**
-     *  开始定位
-     */
-    public final static int MSG_LOCATION_START = 0;
-    /**
-     * 定位完成
-     */
-    public final static int MSG_LOCATION_FINISH = 1;
-    /**
-     * 停止定位
-     */
-    public final static int MSG_LOCATION_STOP= 2;
+    private AMapLocationClient locationClientSingle = null;
+    private BlockingQueue<LocationEntity> blockingQueue=new ArrayBlockingQueue<LocationEntity>(1);
+    private static SimpleDateFormat sdf = null;
 
-    public final static String KEY_URL = "URL";
-    public final static String URL_H5LOCATION = "file:///android_asset/location.html";
-    /**
-     * 根据定位结果返回定位信息的字符串
-     * @param location
-     * @return
-     */
-    public synchronized static String getLocationStr(AMapLocation location){
-        if(null == location){
-            return null;
+    private void startSingleLocation(){
+        if(null == locationClientSingle){
+            locationClientSingle = new AMapLocationClient(YijiajiaApplication.getContext());
         }
-        StringBuffer sb = new StringBuffer();
-        //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
-        if(location.getErrorCode() == 0){
-            sb.append("定位成功" + "\n");
-            sb.append("定位类型: " + location.getLocationType() + "\n");
-            sb.append("经    度    : " + location.getLongitude() + "\n");
-            sb.append("纬    度    : " + location.getLatitude() + "\n");
-            sb.append("精    度    : " + location.getAccuracy() + "米" + "\n");
-            sb.append("提供者    : " + location.getProvider() + "\n");
-
-            sb.append("海    拔    : " + location.getAltitude() + "米" + "\n");
-            sb.append("速    度    : " + location.getSpeed() + "米/秒" + "\n");
-            sb.append("角    度    : " + location.getBearing() + "\n");
-            if (location.getProvider().equalsIgnoreCase(
-                    android.location.LocationManager.GPS_PROVIDER)) {
-                // 以下信息只有提供者是GPS时才会有
-                // 获取当前提供定位服务的卫星个数
-                sb.append("星    数    : "
-                        + location.getSatellites() + "\n");
-            }
-
-            //逆地理信息
-            sb.append("国    家    : " + location.getCountry() + "\n");
-            sb.append("省            : " + location.getProvince() + "\n");
-            sb.append("市            : " + location.getCity() + "\n");
-            sb.append("城市编码 : " + location.getCityCode() + "\n");
-            sb.append("区            : " + location.getDistrict() + "\n");
-            sb.append("区域 码   : " + location.getAdCode() + "\n");
-            sb.append("地    址    : " + location.getAddress() + "\n");
-            sb.append("兴趣点    : " + location.getPoiName() + "\n");
-            //定位完成的时间
-            sb.append("定位时间: " + formatUTC(location.getTime(), "yyyy-MM-dd HH:mm:ss") + "\n");
-
-        } else {
-            //定位失败
-            sb.append("定位失败" + "\n");
-            sb.append("错误码:" + location.getErrorCode() + "\n");
-            sb.append("错误信息:" + location.getErrorInfo() + "\n");
-            sb.append("错误描述:" + location.getLocationDetail() + "\n");
-        }
-        //定位之后的回调时间
-        sb.append("回调时间: " + formatUTC(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss") + "\n");
-        return sb.toString();
+        AMapLocationClientOption locationClientOption = new AMapLocationClientOption();
+        //使用单次定位
+        locationClientOption.setOnceLocation(true);
+        // 地址信息
+        locationClientOption.setNeedAddress(true);
+        locationClientOption.setLocationCacheEnable(false);
+        locationClientSingle.setLocationOption(locationClientOption);
+        locationClientSingle.setLocationListener(locationSingleListener);
+        locationClientSingle.startLocation();
     }
 
-    private static SimpleDateFormat sdf = null;
+    AMapLocationListener locationSingleListener = new AMapLocationListener(){
+        @Override
+        public void onLocationChanged(AMapLocation location) {
+            long callBackTime = System.currentTimeMillis();
+            LocationEntity locationEntity = new LocationEntity();
+            if(null == location){
+                locationEntity.isSuccess=false;
+            } else {
+                //定位成功
+                locationEntity.isSuccess=true;
+                LocationModel.getLocationStr(location,locationEntity);
+            }
+            blockingQueue.offer(locationEntity);
+        };
+    };
+
+    //单次定位 返回一个bean
+    public LocationEntity getLocation(){
+        LocationEntity locationEntity=null;
+        startSingleLocation();
+        try {
+             locationEntity=blockingQueue.poll(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            return null;
+        }
+        locationClientSingle.stopLocation();
+        return locationEntity;
+    }
+    //定位存储
+    public LocationEntity saveLocation(){
+        LocationEntity locationEntity = getLocation();
+        SharedPreferencesUtil.getInstance().putString(ConstantValue.USER_lOCATION, JsonUtils.ObjectString(locationEntity));
+        PhoneLoginModel.mIslogin = true;
+        return locationEntity;
+    }
+    //取出存储
+    public static LocationEntity getSaveLocation(){
+        String locationJson=SharedPreferencesUtil.getInstance().getString(ConstantValue.USER_lOCATION, null);
+        LocationEntity locationEntity = JsonUtils.stringToObject(locationJson,LocationEntity.class);
+        if (locationEntity!=null){
+            return locationEntity;
+        }else{
+            locationEntity.city="未知";
+            return locationEntity;
+        }
+
+    }
+    //删除定位
+
+
+    public synchronized static void getLocationStr(AMapLocation location, LocationEntity locationEntity){
+        if(null == location){
+            return ;
+        }
+        //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
+        if(location.getErrorCode() == 0){
+            locationEntity.locationType = location.getLocationType();
+            locationEntity.longitude = location.getLongitude();
+            locationEntity.latitude = location.getLatitude();
+            locationEntity.accuracy= location.getAccuracy();
+            locationEntity.altitude= location.getAltitude();
+            locationEntity.speed= location.getSpeed();
+            locationEntity.country=location.getCountry();
+            locationEntity.province=location.getProvince();
+            locationEntity.city= location.getCity();
+            locationEntity.cityCode=location.getCityCode();
+            locationEntity.district =location.getDistrict();
+            locationEntity.adCode= location.getAdCode();
+            locationEntity.address=location.getAddress();
+            locationEntity.time= formatUTC(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+        } else {
+            //定位失败
+            locationEntity.isSuccess=false;
+        }
+    }
 
     public synchronized static String formatUTC(long l, String strPattern) {
         if (TextUtils.isEmpty(strPattern)) {

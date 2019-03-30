@@ -10,7 +10,8 @@ public class PhoneLoginContract {
     public interface IPhoneLoginPresenter {
         //校验密码
         void reqLogin(String phone,String PIN);
-
+        //请求验证码值
+        void reqPIN(String phone);
         //释放资源
         void release();
     }

@@ -15,7 +15,8 @@ import com.henan.yijiajia.R;
 import com.henan.yijiajia.p_base.BaseActivity;
 import com.henan.yijiajia.p_location.adapter.ContactAdapter;
 import com.henan.yijiajia.p_location.adapter.HotCityGridViewAdapter;
-import com.henan.yijiajia.p_location.bean.UserEntity;
+import com.henan.yijiajia.p_location.bean.AlternativeCityEntity;
+import com.henan.yijiajia.p_location.model.LocationModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,11 +91,11 @@ public class LocationActivity extends BaseActivity {
             }
         });
 
-        mAdapter.setOnItemContentClickListener(new IndexableAdapter.OnItemContentClickListener<UserEntity>() {
+        mAdapter.setOnItemContentClickListener(new IndexableAdapter.OnItemContentClickListener<AlternativeCityEntity>() {
             @Override
-            public void onItemClick(View v, int originalPosition, int currentPosition, UserEntity entity) {
+            public void onItemClick(View v, int originalPosition, int currentPosition, AlternativeCityEntity entity) {
                 if (originalPosition >= 0) {
-                    intent.putExtra("city", entity.getNick());
+                    intent.putExtra("city", entity.nick);
                     setResult(RESULT_OK, intent);
                     finish();
                 } else {
@@ -168,17 +169,18 @@ public class LocationActivity extends BaseActivity {
                 super(itemView);
                 head_home_change_city_gridview = (QGridView) itemView.findViewById(R.id.item_header_city_gridview);
                 item_header_city_dw = (TextView) itemView.findViewById(R.id.item_header_city_dw);
+                item_header_city_dw.setText(LocationModel.getSaveLocation().city);
             }
         }
     }
 
-    private List<UserEntity> initDatas() {
-        List<UserEntity> list = new ArrayList<>();
+    private List<AlternativeCityEntity> initDatas() {
+        List<AlternativeCityEntity> list = new ArrayList<>();
         // 初始化数据，R.array.provinces是城市资源，下面有贴出资源文件代码
         List<String> contactStrings = Arrays.asList(getResources().getStringArray(R.array.provinces));
         List<String> mobileStrings = Arrays.asList(getResources().getStringArray(R.array.provinces));
         for (int i = 0; i < contactStrings.size(); i++) {
-            UserEntity contactEntity = new UserEntity(contactStrings.get(i), mobileStrings.get(i));
+            AlternativeCityEntity contactEntity = new AlternativeCityEntity(contactStrings.get(i), mobileStrings.get(i));
             list.add(contactEntity);
         }
         return list;

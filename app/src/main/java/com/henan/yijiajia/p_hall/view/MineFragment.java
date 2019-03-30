@@ -17,6 +17,7 @@ import com.henan.yijiajia.main.RequestCodeInfo;
 import com.henan.yijiajia.p_base.BaseFragment;
 import com.henan.yijiajia.p_base.util.JsonUtils;
 import com.henan.yijiajia.p_login.bean.Users;
+import com.henan.yijiajia.p_login.model.PhoneLoginModel;
 import com.henan.yijiajia.p_login.view.PhoneLoginActivity;
 import com.henan.yijiajia.p_setting.SettingActivity;
 import com.henan.yijiajia.util.ConstantValue;
@@ -86,13 +87,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     private void showStatusBar() {
         //从confit文件中判断有没有登录
-        String user=SharedPreferencesUtil.getInstance().getString(ConstantValue.USER_MESSAGE,"None");
+        Users users= PhoneLoginModel.getLoginManage();
         //选择显示那种模式
-        if (!TextUtils.equals(user,"None")){//已经登录
+        if (users != null){//已经登录
             mIsloginRelativeLayout.setVisibility(View.VISIBLE);
             mNologinRelativeLayout.setVisibility(View.GONE);
             //展示登录信息
-            Users users = JsonUtils.stringToObject(user, Users.class);
             String headimgURL =users.headimg;
             mUserHeadSDV.setImageURI("http://120.78.207.248:80/YiJiaJia/"+headimgURL);
             mUserNameTextView.setText(users.nickname);

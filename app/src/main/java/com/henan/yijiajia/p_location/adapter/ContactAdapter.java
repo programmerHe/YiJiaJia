@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.henan.yijiajia.R;
-import com.henan.yijiajia.p_location.bean.UserEntity;
+import com.henan.yijiajia.p_location.bean.AlternativeCityEntity;
 
 import me.yokeyword.indexablerv.IndexableAdapter;
 
@@ -16,7 +16,7 @@ import me.yokeyword.indexablerv.IndexableAdapter;
  * Created by 叶满林 on 2019/2/21.
  */
 
-public class ContactAdapter extends IndexableAdapter<UserEntity> {
+public class ContactAdapter extends IndexableAdapter<AlternativeCityEntity> {
     private LayoutInflater mInflater;
 
     public ContactAdapter(Context context) {
@@ -45,10 +45,10 @@ public class ContactAdapter extends IndexableAdapter<UserEntity> {
 
     //设置悬浮块下面的数据
     @Override
-    public void onBindContentViewHolder(RecyclerView.ViewHolder holder, UserEntity entity) {
+    public void onBindContentViewHolder(RecyclerView.ViewHolder holder, AlternativeCityEntity entity) {
         ContentVH vh = (ContentVH) holder;
-        vh.tvName.setText(entity.getNick());
-        vh.tvMobile.setText(entity.getMobile());
+        vh.tvName.setText(entity.nick);
+        vh.tvMobile.setText(entity.mobile);
     }
 
     private class IndexVH extends RecyclerView.ViewHolder {

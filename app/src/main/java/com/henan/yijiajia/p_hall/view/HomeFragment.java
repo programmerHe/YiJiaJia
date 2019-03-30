@@ -2,6 +2,7 @@ package com.henan.yijiajia.p_hall.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import com.henan.yijiajia.main.RequestCodeInfo;
 import com.henan.yijiajia.p_base.BaseFragment;
 import com.henan.yijiajia.p_base.view.CircleIndicatorView;
 import com.henan.yijiajia.p_hall.adapter.BannerAdapter;
+import com.henan.yijiajia.p_location.bean.LocationEntity;
+import com.henan.yijiajia.p_location.model.LocationModel;
 import com.henan.yijiajia.p_location.view.LocationActivity;
 
 import java.util.ArrayList;
@@ -47,6 +50,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle arguments) {
+        getLocation();
         initAdImageData();
     }
 
@@ -109,7 +113,6 @@ public class HomeFragment extends BaseFragment {
             public void onPageSelected(int i) {
                 //伪无限循环，滑到最后一张图片又从新进入第一张图片
                 int newPosition = i % mAdImageList.size();
-
                 // 把当前选中的点给切换了, 还有描述信息也切换
                 mAdIndicator.setSelectPosition(newPosition);
                 // 把当前的索引赋值给前一个索引变量, 方便下一次再切换.
@@ -140,4 +143,18 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
+    private void getLocation(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final LocationEntity locationEntity = new LocationModel().saveLocation();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPositionButton.setText(locationEntity.city+locationEntity.district);
+                    }
+                });
+            }
+        }).start();
+    }
 }
