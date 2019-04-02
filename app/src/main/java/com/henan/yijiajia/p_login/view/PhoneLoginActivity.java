@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.henan.yijiajia.R;
 import com.henan.yijiajia.p_base.BaseActivity;
@@ -103,6 +104,9 @@ public class PhoneLoginActivity extends BaseActivity implements PhoneLoginContra
                     mPhoneLoginPresenter.reqPIN(mPhoneNumberView.getText().toString().trim());
                 }else{
                     mPhoneLoginPresenter.reqLogin(mPhoneNumberView.getText().toString().trim(), mIdentifyingView.getText().toString().trim());
+                    //弹出一个Dialog
+                    toastLong("请等待服务器响应");
+                    mNextButton.setEnabled(false);
                 }
 
             }
@@ -124,6 +128,11 @@ public class PhoneLoginActivity extends BaseActivity implements PhoneLoginContra
     @Override
     public void hideIdentifying() {
 
+    }
+
+    @Override
+    public void showToast(String msg) {
+        toastLong(msg);
     }
 
     @Override

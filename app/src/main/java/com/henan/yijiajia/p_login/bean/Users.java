@@ -7,7 +7,7 @@ import java.util.Date;
  */
 
 public class Users {
-     public Integer id;// ID
+     public String id;// ID
      public String nickname;// 昵称
      public String name;// 昵称
      public Short age;// 用户年龄

@@ -159,8 +159,7 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
         }
 
         String releaseJson=JsonUtils.ObjectString(releaseServerBean);
-        Log.i("davie", "releaseService: "+releaseJson);
-     //new NetworkMassage().releaseService(loginManage.phone,releaseServerBean);
+        NetworkMassage.getInstance().releaseService(loginManage.id.toString(),releaseServerBean);
     }
 
     private void startSpeechDialog() {

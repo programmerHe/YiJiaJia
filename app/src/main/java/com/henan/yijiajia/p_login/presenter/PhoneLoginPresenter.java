@@ -33,12 +33,12 @@ public class PhoneLoginPresenter implements PhoneLoginContract.IPhoneLoginPresen
 
     @Override
     public void reqLogin(String phone,String PIN) {
-        new NetworkMassage().loginPhone(phone,PIN);
+        NetworkMassage.getInstance().loginPhone(phone,PIN);
     }
 
     @Override
     public void reqPIN(String phone) {
-        new NetworkMassage().loginPIN(phone);
+        NetworkMassage.getInstance().loginPIN(phone);
         mPhoneLoginView.showIdentifying();
     }
 
@@ -51,9 +51,19 @@ public class PhoneLoginPresenter implements PhoneLoginContract.IPhoneLoginPresen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEventBus(LoginMessage msg) {
         String data=msg.message;
-        if (!TextUtils.equals(data,"error")) {
-            PhoneLoginModel.saveLoginManage(JsonUtils.stringToObject(data, Users.class));
-            mPhoneLoginView.loginSuccess();
+        switch (msg.message){
+            case "PIN_ERROR":
+                //弹出吐司
+                mPhoneLoginView.showToast("验证码错误");
+                break;
+            case "SERVICE_ERROR":
+                //网络异常
+                mPhoneLoginView.showToast("请检查网络");
+                break;
+            default:
+                PhoneLoginModel.saveLoginManage(JsonUtils.stringToObject(data, Users.class));
+                mPhoneLoginView.loginSuccess();
+                break;
         }
     }
 

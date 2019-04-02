@@ -9,7 +9,7 @@ import com.henan.yijiajia.p_login.bean.Users;
 public class PhoneLoginContract {
     public interface IPhoneLoginPresenter {
         //校验密码
-        void reqLogin(String phone,String PIN);
+        void reqLogin(String phone, String PIN);
         //请求验证码值
         void reqPIN(String phone);
         //释放资源
@@ -25,5 +25,9 @@ public class PhoneLoginContract {
 
         //验证码框隐藏
         void hideIdentifying();
+
+        //弹出吐司显示错误
+        void showToast(String msg);
+
     }
 }

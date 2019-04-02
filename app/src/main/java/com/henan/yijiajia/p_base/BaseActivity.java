@@ -50,9 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected void toastLong(String msg){
         if (null == toast) {
-            toast = new Toast(this);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setText(msg);
+            Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
             toast.show();
         } else {
             toast.setText(msg);
