@@ -1,9 +1,9 @@
 package com.henan.yijiajia.p_network;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.henan.yijiajia.p_base.util.JsonUtils;
+import com.henan.yijiajia.p_hall.view.ReleaseFragment;
 import com.henan.yijiajia.p_login.presenter.PhoneLoginPresenter;
 import com.henan.yijiajia.p_release.bean.ReleaseServerBean;
 
@@ -18,7 +18,6 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -59,7 +58,7 @@ public class NetworkMassage {
                         Log.i(TAG, "Error:请求验证码失败");
                     }
                     @Override
-                    public void onNext(NetBasebean userInfo) {
+                    public void onNext(NetBasebean PINInfo) {
                         //请求失败
                         Log.i(TAG, "Success:请求验证码成功");
                     }
@@ -70,12 +69,12 @@ public class NetworkMassage {
         service.login(phone,PIN)              //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行0
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
-                .doOnNext(new Action1<NetBasebean>() {
-                    @Override
-                    public void call(NetBasebean userInfo) {
-                        Log.i(TAG, "登录请求");
-                    }
-                })
+//                .doOnNext(new Action1<NetBasebean>() {
+//                    @Override
+//                    public void call(NetBasebean userInfo) {
+//                        Log.i(TAG, "登录请求");
+//                    }
+//                })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
                 .subscribe(new Subscriber<NetBasebean>() {
                     @Override
@@ -103,16 +102,9 @@ public class NetworkMassage {
     }
 
     public void releaseService(String userID,ReleaseServerBean releaseServerBean){
-        String releaseJson=JsonUtils.ObjectString(releaseServerBean);
-        service.releaseServer(userID,releaseJson)              //获取Observable对象
+        service.releaseServer(userID,releaseServerBean)              //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行0
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
-                .doOnNext(new Action1<NetBasebean>() {
-                    @Override
-                    public void call(NetBasebean userInfo) {
-                        Log.i(TAG, "登录请求");
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
                 .subscribe(new Subscriber<NetBasebean>() {
                     @Override
@@ -121,13 +113,20 @@ public class NetworkMassage {
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        Log.i(TAG, "Error:服务发布失败");
+                        EventBus.getDefault().post(new ReleaseFragment.ReleaseMessage("SERVICE_ERROR"));
                     }
                     @Override
-                    public void onNext(NetBasebean userInfo) {
-                        Log.i(TAG, "success: "+userInfo.toString());
+                    public void onNext(NetBasebean releaseServiceInfo) {
+                        //登录成功
+                        switch (releaseServiceInfo.msg){
+                            case "success":
+                                EventBus.getDefault().post(new ReleaseFragment.ReleaseMessage("SUCCESS"));
+                                break;
+                            default:
+                                EventBus.getDefault().post(new ReleaseFragment.ReleaseMessage("MESSAGE_ERROR"));
+                                break;
+                        }
                     }
-
                 });
     }
 

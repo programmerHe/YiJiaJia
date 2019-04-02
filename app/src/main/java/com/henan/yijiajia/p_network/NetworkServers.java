@@ -1,5 +1,7 @@
 package com.henan.yijiajia.p_network;
 
+import com.henan.yijiajia.p_release.bean.ReleaseServerBean;
+
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -23,6 +25,6 @@ public interface NetworkServers {
 
     //请求服务
     @POST("api_releaseServer")
-    Observable<NetBasebean>releaseServer(@Query("UserID") String UserID,@Body String releaseJson);
+    Observable<NetBasebean>releaseServer(@Query("UserID") String UserID,@Body ReleaseServerBean releaseServerBean);
 
 }

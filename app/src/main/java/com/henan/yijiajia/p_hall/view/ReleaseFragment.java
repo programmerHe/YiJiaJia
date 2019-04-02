@@ -32,6 +32,7 @@ import com.henan.yijiajia.p_location.bean.LocationEntity;
 import com.henan.yijiajia.p_location.model.LocationModel;
 import com.henan.yijiajia.p_login.bean.Users;
 import com.henan.yijiajia.p_login.model.PhoneLoginModel;
+import com.henan.yijiajia.p_login.presenter.PhoneLoginPresenter;
 import com.henan.yijiajia.p_network.NetworkMassage;
 import com.henan.yijiajia.p_release.bean.ReleaseServerBean;
 import com.iflytek.cloud.ErrorCode;
@@ -42,7 +43,11 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,6 +66,7 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
     private RelativeLayout mChoiceTypeLayout;
     private EditText mMoneyEditText;
     private TextView mDetailedAddressTextView;
+    private LoadingDialog mLoadingDialog;
 
     @Override
     protected void initView() {
@@ -77,6 +83,8 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
     protected void initData(Bundle arguments) {
         //初始化语音识别
         SpeechUtility.createUtility(YijiajiaApplication.getContext(), SpeechConstant.APPID +"=5c8f1959");
+        //注册eventBus
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -160,6 +168,23 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
 
         String releaseJson=JsonUtils.ObjectString(releaseServerBean);
         NetworkMassage.getInstance().releaseService(loginManage.id.toString(),releaseServerBean);
+
+        mLoadingDialog = new LoadingDialog(getContext());
+        mLoadingDialog.setLoadingText("加载中")
+                .setSuccessText("发布成功")//显示加载成功时的文字
+                .setFailedText("加载失败")
+                .setInterceptBack(false)//是否拦截用户back，如果设置为true，那么一定要调用close()，
+                .setRepeatCount(0);
+            // .setLoadSpeed(LoadingDialog.Speed.SPEED_ONE)//参数是一个枚举，一共两个值，SPEED_ONE是比较慢的，SPEED_TWO比前一个快一点
+            // .closeSuccessAnim()是否动画显示
+            //设置动态绘制的次数，比如你设置了值为1，那么除了加载的时候绘制一次，还会再绘制一次。
+            // .setDrawColor(color)//可以改变绘制的颜色，圆和里面的勾啊，叉啊的颜色
+        mLoadingDialog.show();
+    }
+
+    private void clearPageMessage() {
+        mReleaseText.setText("");
+        mMoneyEditText.setText("");
     }
 
     private void startSpeechDialog() {
@@ -295,6 +320,33 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
             }else if (requestCode == RequestCodeInfo.RESULT_CAMERA_IMAGE){
 
             }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    //eventBus消息处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainEventBus(ReleaseMessage msg) {
+        String data=msg.message;
+        switch (msg.message){
+            case "SUCCESS":
+                //发布成功
+                mLoadingDialog.loadSuccess();
+                break;
+            default:
+                mLoadingDialog.loadFailed();
+                break;
+        }
+    }
+    public static class ReleaseMessage{
+        public String message;
+        public ReleaseMessage(String message){
+            this.message=message;
         }
     }
 }

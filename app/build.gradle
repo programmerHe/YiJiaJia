@@ -70,4 +70,6 @@ dependencies {
     compile 'com.amap.api:location:latest.integration'
     implementation files('libs/Msc.jar')
     implementation files('libs/Sunflower.jar')
+    //dialog加载框
+    compile 'com.github.ForgetAll:LoadingDialog:v1.0.1'
 }
