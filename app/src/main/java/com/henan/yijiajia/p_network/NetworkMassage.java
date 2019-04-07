@@ -2,10 +2,12 @@ package com.henan.yijiajia.p_network;
 
 import android.util.Log;
 
+import com.henan.yijiajia.main.YijiajiaApplication;
 import com.henan.yijiajia.p_base.util.JsonUtils;
 import com.henan.yijiajia.p_hall.view.ReleaseFragment;
 import com.henan.yijiajia.p_login.presenter.PhoneLoginPresenter;
 import com.henan.yijiajia.p_release.bean.ReleaseServerBean;
+import com.igexin.sdk.PushManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -66,7 +68,8 @@ public class NetworkMassage {
     }
 
     public void loginPhone(String phone,String PIN){
-        service.login(phone,PIN)              //获取Observable对象
+        String clientId = PushManager.getInstance().getClientid(YijiajiaApplication.getContext());
+        service.login(phone,PIN,clientId)              //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行0
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
 //                .doOnNext(new Action1<NetBasebean>() {

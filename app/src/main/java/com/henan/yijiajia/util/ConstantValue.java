@@ -13,4 +13,8 @@ public class ConstantValue {
      *  地址
      */
     public static  final String USER_lOCATION="user_location";
+    /**
+     *  订单
+     */
+    public static  final String SERVER_ORDER="server_order";
  }

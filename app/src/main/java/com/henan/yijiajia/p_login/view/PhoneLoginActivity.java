@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.henan.yijiajia.R;
 import com.henan.yijiajia.p_base.BaseActivity;
@@ -18,6 +16,7 @@ import com.henan.yijiajia.p_base.util.PhoneNumberUtils;
 import com.henan.yijiajia.p_login.PhoneLoginContract;
 import com.henan.yijiajia.p_login.presenter.PhoneLoginPresenter;
 import com.henan.yijiajia.p_network.NetworkMassage;
+import com.igexin.sdk.PushManager;
 
 public class PhoneLoginActivity extends BaseActivity implements PhoneLoginContract.IPhoneLoginView {
 

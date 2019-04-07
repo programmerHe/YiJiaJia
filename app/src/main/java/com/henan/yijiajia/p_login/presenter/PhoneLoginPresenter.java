@@ -1,16 +1,15 @@
 package com.henan.yijiajia.p_login.presenter;
 
-import android.text.TextUtils;
+
 import android.util.Log;
 
+import com.henan.yijiajia.main.YijiajiaApplication;
 import com.henan.yijiajia.p_base.util.JsonUtils;
-import com.henan.yijiajia.p_base.util.PhoneNumberUtils;
 import com.henan.yijiajia.p_login.PhoneLoginContract;
 import com.henan.yijiajia.p_login.bean.Users;
 import com.henan.yijiajia.p_login.model.PhoneLoginModel;
 import com.henan.yijiajia.p_network.NetworkMassage;
-import com.henan.yijiajia.util.ConstantValue;
-import com.henan.yijiajia.util.SharedPreferencesUtil;
+import com.igexin.sdk.PushManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -61,7 +60,12 @@ public class PhoneLoginPresenter implements PhoneLoginContract.IPhoneLoginPresen
                 mPhoneLoginView.showToast("请检查网络");
                 break;
             default:
-                PhoneLoginModel.saveLoginManage(JsonUtils.stringToObject(data, Users.class));
+                //登录成功
+                Users users = JsonUtils.stringToObject(data, Users.class);
+                //绑定个推别名
+                PushManager.getInstance().bindAlias(YijiajiaApplication.getContext(), users.id);
+                //缓存一份信息
+                PhoneLoginModel.saveLoginManage(users);
                 mPhoneLoginView.loginSuccess();
                 break;
         }

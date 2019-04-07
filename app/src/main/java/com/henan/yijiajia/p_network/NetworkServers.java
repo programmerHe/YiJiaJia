@@ -17,7 +17,7 @@ public interface NetworkServers {
 
     //手机登录
     @GET("api_phoneLogin")
-    Observable<NetBasebean> login(@Query("phone") String phone,@Query("PIN") String PIN);
+    Observable<NetBasebean> login(@Query("phone") String phone,@Query("PIN") String PIN,@Query("clientId") String clientId);
 
     //手机验证
     @GET("api_phonePIN")
