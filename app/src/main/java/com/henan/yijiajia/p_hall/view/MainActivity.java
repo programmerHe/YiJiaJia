@@ -105,6 +105,7 @@ public class MainActivity extends BaseActivity{
                             mFragments.add(mMessageFragment);
                             hideOthersFragment(mMessageFragment, true);
                         } else {
+                            mMessageFragment.initData(null);
                             hideOthersFragment(mMessageFragment, false);
                         }
                         break;

@@ -6,7 +6,9 @@ import com.henan.yijiajia.main.YijiajiaApplication;
 import com.henan.yijiajia.p_base.util.JsonUtils;
 import com.henan.yijiajia.p_hall.view.ReleaseFragment;
 import com.henan.yijiajia.p_login.presenter.PhoneLoginPresenter;
+import com.henan.yijiajia.p_order_confirm.view.OrderConfirmActivity;
 import com.henan.yijiajia.p_release.bean.ReleaseServerBean;
+import com.henan.yijiajia.p_push.bean.ServiceRequest;
 import com.igexin.sdk.PushManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -129,6 +131,52 @@ public class NetworkMassage {
                                 EventBus.getDefault().post(new ReleaseFragment.ReleaseMessage("MESSAGE_ERROR"));
                                 break;
                         }
+                    }
+                });
+    }
+
+    public void takingOrder(String userID,ServiceRequest serviceRequest){
+        service.serviceOrderTaking(userID,serviceRequest)              //获取Observable对象
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行0
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<NetBasebean>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        Log.i(TAG, "Error:接单成功");
+                    }
+                    @Override
+                    public void onNext(NetBasebean rtakingOrdernfo) {
+                        //登录成功
+                        Log.i(TAG, "Success:接单成功");
+                    }
+                });
+    }
+
+    public void orderConfirm(String userID){
+        service.orderConfirm(userID)              //获取Observable对象
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行0
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<NetBasebean>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        Log.i(TAG, "Error:检出失败");
+                    }
+                    @Override
+                    public void onNext(NetBasebean orderConfirminfo) {
+                        //请求成功
+                        String message= JsonUtils.ObjectString(orderConfirminfo.data);
+                        Log.i(TAG, message);
+                        EventBus.getDefault().post(new OrderConfirmActivity.OrderConfirmMessage(message));
                     }
                 });
     }

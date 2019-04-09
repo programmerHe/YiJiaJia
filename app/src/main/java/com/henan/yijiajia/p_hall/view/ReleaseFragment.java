@@ -67,6 +67,7 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
     private EditText mMoneyEditText;
     private TextView mDetailedAddressTextView;
     private LoadingDialog mLoadingDialog;
+    private TextView mDetailedCityTextView;
 
     @Override
     protected void initView() {
@@ -77,6 +78,7 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
         mChoiceTypeLayout = findViewById(R.id.rl_type_choice);
         mMoneyEditText = findViewById(R.id.et_money);
         mDetailedAddressTextView = findViewById(R.id.tv_detailed_address);
+        mDetailedCityTextView = findViewById(R.id.tv_city);
     }
 
     @Override
@@ -85,6 +87,11 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
         SpeechUtility.createUtility(YijiajiaApplication.getContext(), SpeechConstant.APPID +"=5c8f1959");
         //注册eventBus
         EventBus.getDefault().register(this);
+        //写一下地址
+        LocationEntity saveLocation = LocationModel.getSaveLocation();
+        mDetailedCityTextView.setText(saveLocation.province+saveLocation.city+saveLocation.district);
+        String address = saveLocation.address;
+        mDetailedAddressTextView.setText( address.substring(address.indexOf(saveLocation.district)+saveLocation.district.length()));
     }
 
     @Override

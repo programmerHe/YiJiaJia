@@ -1,5 +1,6 @@
 package com.henan.yijiajia.p_network;
 
+import com.henan.yijiajia.p_push.bean.ServiceRequest;
 import com.henan.yijiajia.p_release.bean.ReleaseServerBean;
 
 import okhttp3.RequestBody;
@@ -26,5 +27,13 @@ public interface NetworkServers {
     //请求服务
     @POST("api_releaseServer")
     Observable<NetBasebean>releaseServer(@Query("UserID") String UserID,@Body ReleaseServerBean releaseServerBean);
+
+    //接单请求
+    @POST("api_serviceOrderTaking")
+    Observable<NetBasebean>serviceOrderTaking(@Query("UserID") String UserID,@Body ServiceRequest serviceRequest);
+
+    //请求订单匹配列表
+    @GET("api_orderConfirm")
+    Observable<NetBasebean>orderConfirm(@Query("UserID") String UserID);
 
 }

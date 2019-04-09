@@ -73,6 +73,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".p_order.view.OrderMessageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".p_order_confirm.view.OrderConfirmActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <!-- 个推需要的服务 -->
         <service
@@ -86,6 +89,8 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
+
+
     </application>
 
 </manifest>

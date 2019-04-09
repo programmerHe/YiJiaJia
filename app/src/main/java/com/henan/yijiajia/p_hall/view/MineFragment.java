@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,6 +20,7 @@ import com.henan.yijiajia.p_base.util.JsonUtils;
 import com.henan.yijiajia.p_login.bean.Users;
 import com.henan.yijiajia.p_login.model.PhoneLoginModel;
 import com.henan.yijiajia.p_login.view.PhoneLoginActivity;
+import com.henan.yijiajia.p_order_confirm.view.OrderConfirmActivity;
 import com.henan.yijiajia.p_setting.SettingActivity;
 import com.henan.yijiajia.util.ConstantValue;
 import com.henan.yijiajia.util.SharedPreferencesUtil;
@@ -31,6 +33,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private ImageButton mSettingImageButton;
     private TextView mUserNameTextView;
     private SimpleDraweeView mUserHeadSDV;
+    private Button mConfirmButton;
 
     @Override
     protected void initView() {
@@ -40,6 +43,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         mNologinRelativeLayout = findViewById(R.id.nologin_rl);
         mUserNameTextView = findViewById(R.id.tv_user_name);
         mUserHeadSDV = findViewById(R.id.iv_user_head);
+        mConfirmButton = findViewById(R.id.bt_confirm);
     }
 
     @Override
@@ -57,6 +61,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     protected void addListener() {
         mLoginOfPhoneImageView.setOnClickListener(this);
         mSettingImageButton.setOnClickListener(this);
+        mConfirmButton.setOnClickListener(this);
     }
 
     @Override
@@ -67,6 +72,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.ib_setting:
                 startActivityForResult(new Intent(getContext(), SettingActivity.class), RequestCodeInfo.SETTING);
+                break;
+            case R.id.bt_confirm:
+                startActivity(new Intent(getContext(), OrderConfirmActivity.class));
                 break;
         }
     }
