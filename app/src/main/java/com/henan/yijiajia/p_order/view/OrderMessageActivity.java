@@ -30,7 +30,6 @@ public class OrderMessageActivity extends BaseActivity implements View.OnClickLi
     private Button mReceiveButton;
     private Button mRefuserButton;
     private ServiceRequest mServiceRequest;
-    private Button mConfirmButton;
 
     @Override
     protected int initLayout() {
@@ -46,7 +45,6 @@ public class OrderMessageActivity extends BaseActivity implements View.OnClickLi
         mOrderMoneyEditText = findViewById(R.id.et_money);
         mReceiveButton = findViewById(R.id.bt_receive);
         mRefuserButton = findViewById(R.id.bt_refuse);
-        mConfirmButton = findViewById(R.id.bt_confirm);
     }
 
     @Override
@@ -64,7 +62,6 @@ public class OrderMessageActivity extends BaseActivity implements View.OnClickLi
     protected void addListener() {
         mReceiveButton.setOnClickListener(this);
         mRefuserButton.setOnClickListener(this);
-        mConfirmButton.setOnClickListener(this);
     }
 
     @Override
@@ -93,8 +90,6 @@ public class OrderMessageActivity extends BaseActivity implements View.OnClickLi
             case R.id.bt_refuse:
                 OrderModel.clearOrderManage();
                 finish();
-                break;
-            case R.id.bt_confirm:
                 break;
         }
     }

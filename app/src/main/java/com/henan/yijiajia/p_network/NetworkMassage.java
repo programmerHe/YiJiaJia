@@ -136,6 +136,7 @@ public class NetworkMassage {
     }
 
     public void takingOrder(String userID,ServiceRequest serviceRequest){
+        Log.i(TAG, "takingOrder: "+JsonUtils.ObjectString(serviceRequest));
         service.serviceOrderTaking(userID,serviceRequest)              //获取Observable对象
                 .subscribeOn(Schedulers.newThread())//请求在新的线程中执行0
                 .observeOn(Schedulers.io())         //请求完成后在io线程中执行
@@ -147,7 +148,7 @@ public class NetworkMassage {
                     @Override
                     public void onError(Throwable e) {
                         //请求失败
-                        Log.i(TAG, "Error:接单成功");
+                        Log.i(TAG, "Error:接单失败");
                     }
                     @Override
                     public void onNext(NetBasebean rtakingOrdernfo) {
@@ -177,6 +178,28 @@ public class NetworkMassage {
                         String message= JsonUtils.ObjectString(orderConfirminfo.data);
                         Log.i(TAG, message);
                         EventBus.getDefault().post(new OrderConfirmActivity.OrderConfirmMessage(message));
+                    }
+                });
+    }
+
+    public void orderContract(String orderID,String orderTakingID){
+        service.orderContract(orderID,orderTakingID)              //获取Observable对象
+                .subscribeOn(Schedulers.newThread())//请求在新的线程中执行0
+                .observeOn(Schedulers.io())         //请求完成后在io线程中执行
+                .observeOn(AndroidSchedulers.mainThread())//最后在主线程中执行
+                .subscribe(new Subscriber<NetBasebean>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        //请求失败
+                        Log.i(TAG, "Error:确认失败");
+                    }
+                    @Override
+                    public void onNext(NetBasebean orderConfirminfo) {
+                        //请求成功
+                        Log.i(TAG, "Success:确认成功");
                     }
                 });
     }

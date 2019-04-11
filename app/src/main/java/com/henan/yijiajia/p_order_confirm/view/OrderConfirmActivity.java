@@ -63,7 +63,7 @@ public class OrderConfirmActivity extends BaseActivity {
         mOrderTextTextView.setText(mOrderConfirm.servicerequest_text);
         mOrderAddressTextView.setText(mOrderConfirm.location_address);
         mOrderOffermoneyTextView.setText(mOrderConfirm.servicerequest_money+"");
-        ServersAdapter serversAdapter = new ServersAdapter(mOrderConfirm.ProvideServerList, this);
+        ServersAdapter serversAdapter = new ServersAdapter(mOrderConfirm.ProvideServerList, this,mOrderConfirm.id+"");
         mServerListView.setAdapter(serversAdapter);
     }
 

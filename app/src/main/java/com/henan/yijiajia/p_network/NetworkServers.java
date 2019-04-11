@@ -36,4 +36,8 @@ public interface NetworkServers {
     @GET("api_orderConfirm")
     Observable<NetBasebean>orderConfirm(@Query("UserID") String UserID);
 
+    //订单匹配
+    @GET("api_orderContract")
+    Observable<NetBasebean>orderContract(@Query("orderID") String orderID,@Query("orderTakingID") String orderTakingID);
+
 }

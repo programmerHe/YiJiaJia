@@ -36,7 +36,6 @@
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:textSize="16dp"
-            android:text=""
             android:textColor="#000"
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -61,7 +60,6 @@
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:textSize="16dp"
-            android:text="陕西省铜川市"
             android:textColor="#000"
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -87,7 +85,6 @@
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:textSize="16dp"
-            android:text="我们宿舍需要擦玻璃"
             android:textColor="#000"
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -113,7 +110,6 @@
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:textSize="16dp"
-            android:text="10010202565"
             android:textColor="#000"
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -139,7 +135,6 @@
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:textSize="16dp"
-            android:text="议价"
             android:textColor="#000"
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -147,6 +142,7 @@
     </LinearLayout>
 
     <ListView
+        android:layout_marginTop="10dp"
         android:id="@+id/lv_server_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -19,6 +19,7 @@ public class OrderConfirm {
     public List<ProvideServer> ProvideServerList;//接单列表
 
     public static class ProvideServer {
+        public String orderTakingId;// 服务商ID
         public String serverId;// 服务商ID
         public String serverName;// 服务商姓名
         public int server_good;// 好评数
@@ -26,19 +27,5 @@ public class OrderConfirm {
         public int server_bad;// 差评数
         public int server_total;// 总服务次数
         public int serviceRequest_offerMoney;// 出价
-    }
-
-    @Override
-    public String toString() {
-        return "OrderConfirm{" +
-                "id=" + id +
-                ", location_area='" + location_area + '\'' +
-                ", location_address='" + location_address + '\'' +
-                ", servicerequest_text='" + servicerequest_text + '\'' +
-                ", servicerequest_money=" + servicerequest_money +
-                ", servicerequest_method='" + servicerequest_method + '\'' +
-                ", servicerequest_user_phone='" + servicerequest_user_phone + '\'' +
-                ", ProvideServerList=" + ProvideServerList +
-                '}';
     }
 }
