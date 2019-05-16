@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.henan.yijiajia.R;
 import com.henan.yijiajia.main.RequestCodeInfo;
@@ -287,7 +288,6 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-
             }
         });
         //popupWindow消失屏幕变为不透明
@@ -319,10 +319,9 @@ public class ReleaseFragment extends BaseFragment implements View.OnClickListene
                 Cursor cursor =  getActivity().getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
                 cursor.moveToFirst();
-
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 final String picturePath = cursor.getString(columnIndex);
-                // upload(picturePath);
+                Glide.with(this).load(picturePath).into(mReleaseImage);
                 cursor.close();
             }else if (requestCode == RequestCodeInfo.RESULT_CAMERA_IMAGE){
 

@@ -25,11 +25,11 @@ import java.util.concurrent.TimeUnit;
 
 public class LocationModel {
     private AMapLocationClient locationClientSingle = null;
-    private BlockingQueue<LocationEntity> blockingQueue=new ArrayBlockingQueue<LocationEntity>(1);
+    private BlockingQueue<LocationEntity> blockingQueue = new ArrayBlockingQueue<LocationEntity>(1);
     private static SimpleDateFormat sdf = null;
 
-    private void startSingleLocation(){
-        if(null == locationClientSingle){
+    private void startSingleLocation() {
+        if (null == locationClientSingle) {
             locationClientSingle = new AMapLocationClient(YijiajiaApplication.getContext());
         }
         AMapLocationClientOption locationClientOption = new AMapLocationClientOption();
@@ -43,49 +43,58 @@ public class LocationModel {
         locationClientSingle.startLocation();
     }
 
-    AMapLocationListener locationSingleListener = new AMapLocationListener(){
+    AMapLocationListener locationSingleListener = new AMapLocationListener() {
         @Override
         public void onLocationChanged(AMapLocation location) {
             long callBackTime = System.currentTimeMillis();
             LocationEntity locationEntity = new LocationEntity();
-            if(null == location){
-                locationEntity.isSuccess=false;
+            if (null == location) {
+                locationEntity.isSuccess = false;
             } else {
                 //定位成功
-                locationEntity.isSuccess=true;
-                LocationModel.getLocationStr(location,locationEntity);
+                locationEntity.isSuccess = true;
+                LocationModel.getLocationStr(location, locationEntity);
             }
             blockingQueue.offer(locationEntity);
-        };
+        }
+
+        ;
     };
 
     //单次定位 返回一个bean
-    public LocationEntity getLocation(){
-        LocationEntity locationEntity=null;
+    public LocationEntity getLocation() {
+        LocationEntity locationEntity = null;
         startSingleLocation();
         try {
-             locationEntity=blockingQueue.poll(5, TimeUnit.SECONDS);
+            locationEntity = blockingQueue.poll(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             return null;
         }
         locationClientSingle.stopLocation();
-        return locationEntity;
+        if (locationEntity.isSuccess) {
+            return locationEntity;
+        } else {
+            return getSaveLocation();
+        }
     }
+
     //定位存储
-    public LocationEntity saveLocation(){
+    public LocationEntity saveLocation() {
         LocationEntity locationEntity = getLocation();
         SharedPreferencesUtil.getInstance().putString(ConstantValue.USER_lOCATION, JsonUtils.ObjectString(locationEntity));
         PhoneLoginModel.mIslogin = true;
         return locationEntity;
     }
+
     //取出存储
-    public static LocationEntity getSaveLocation(){
-        String locationJson=SharedPreferencesUtil.getInstance().getString(ConstantValue.USER_lOCATION, null);
-        LocationEntity locationEntity = JsonUtils.stringToObject(locationJson,LocationEntity.class);
-        if (locationEntity!=null){
+    public static LocationEntity getSaveLocation() {
+        String locationJson = SharedPreferencesUtil.getInstance().getString(ConstantValue.USER_lOCATION, null);
+        LocationEntity locationEntity = JsonUtils.stringToObject(locationJson, LocationEntity.class);
+        if (locationEntity != null) {
             return locationEntity;
-        }else{
-            locationEntity.city="未知";
+        } else {
+            locationEntity.city = "未知";
+            locationEntity.district = "";
             return locationEntity;
         }
 
@@ -93,29 +102,29 @@ public class LocationModel {
     //删除定位
 
 
-    public synchronized static void getLocationStr(AMapLocation location, LocationEntity locationEntity){
-        if(null == location){
-            return ;
+    public synchronized static void getLocationStr(AMapLocation location, LocationEntity locationEntity) {
+        if (null == location) {
+            return;
         }
         //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
-        if(location.getErrorCode() == 0){
+        if (location.getErrorCode() == 0) {
             locationEntity.locationType = location.getLocationType();
             locationEntity.longitude = location.getLongitude();
             locationEntity.latitude = location.getLatitude();
-            locationEntity.accuracy= location.getAccuracy();
-            locationEntity.altitude= location.getAltitude();
-            locationEntity.speed= location.getSpeed();
-            locationEntity.country=location.getCountry();
-            locationEntity.province=location.getProvince();
-            locationEntity.city= location.getCity();
-            locationEntity.cityCode=location.getCityCode();
-            locationEntity.district =location.getDistrict();
-            locationEntity.adCode= location.getAdCode();
-            locationEntity.address=location.getAddress();
-            locationEntity.time= formatUTC(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+            locationEntity.accuracy = location.getAccuracy();
+            locationEntity.altitude = location.getAltitude();
+            locationEntity.speed = location.getSpeed();
+            locationEntity.country = location.getCountry();
+            locationEntity.province = location.getProvince();
+            locationEntity.city = location.getCity();
+            locationEntity.cityCode = location.getCityCode();
+            locationEntity.district = location.getDistrict();
+            locationEntity.adCode = location.getAdCode();
+            locationEntity.address = location.getAddress();
+            locationEntity.time = formatUTC(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
         } else {
             //定位失败
-            locationEntity.isSuccess=false;
+            locationEntity.isSuccess = false;
         }
     }
 

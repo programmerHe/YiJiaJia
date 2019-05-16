@@ -49,15 +49,16 @@
 
         <activity
             android:name=".p_hall.view.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".p_luncher.LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".p_luncher.LauncherActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".p_location.view.LocationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
